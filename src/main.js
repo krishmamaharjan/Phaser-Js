@@ -6,7 +6,7 @@ const sizes = {
   height:500
 }
 
-  const speedDown = 300
+  const speedDown = 100
 
   class GameScene extends Phaser.Scene{
     constructor(){
@@ -16,7 +16,10 @@ const sizes = {
       this.playerSpeed = speedDown+50;
       this.target;
       this.points = 0;
-      this.textScore
+      this.textScore;
+      this.textTime;
+      this.timeEvent;
+      this.remainingTime;
     }
 
     preload()
@@ -45,16 +48,24 @@ const sizes = {
       this.cursor = this.input.keyboard.createCursorKeys();
 
       this.textScore = this.add.text(sizes.width - 120, 10, "Score:0", {
-        font: "10px Arial",
+        font: "20px Arial",
         fill: "#000000"
+      });
+
+      this.textTime = this.add.text(10,10, "Remaining Time : 00",{
+        font: "25px Arial",
+        fill:"#000000"
       })
 
+      this.timeEvent = this.time.delayedCall(3000, this.gameOver,[], this);
 
       
     }
 
 
     update(){
+      this.remainingTime=this.timeEvent.getRemainingSeconds();
+      this.textTime.setText(`Remaining Time: ${Math.round(this.remainingTime).toString()}`)
       if(this.target.y>= sizes.height)
       {
         this.target.setY(0);
@@ -84,6 +95,10 @@ const sizes = {
       this.target.setX(this.getRandomX());
       this.points++;
       this.textScore.setText(`Score: ${this.points}`)
+    }
+
+    gameOver(){
+      console.log("Game Over !!!")
     }
   }
 
