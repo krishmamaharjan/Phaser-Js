@@ -16,6 +16,7 @@ const sizes = {
       this.playerSpeed = speedDown+50;
       this.target;
       this.points = 0;
+      this.textScore
     }
 
     preload()
@@ -40,7 +41,13 @@ const sizes = {
       this.target.setMaxVelocity(0, speedDown);
 
       this.physics.add.overlap(this.target, this.player, this.targetHit, null, this)
+
       this.cursor = this.input.keyboard.createCursorKeys();
+
+      this.textScore = this.add.text(sizes.width - 120, 10, "Score:0", {
+        font: "10px Arial",
+        fill: "#000000"
+      })
 
 
       
@@ -76,6 +83,7 @@ const sizes = {
       this.target.setY(0);
       this.target.setX(this.getRandomX());
       this.points++;
+      this.textScore.setText(`Score: ${this.points}`)
     }
   }
 
